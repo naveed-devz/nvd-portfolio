@@ -280,16 +280,20 @@ export default function Home() {
 
             <ParallaxHero className="hero-visual">
               <div className="hero-visual-stack">
-                <div className="profile-card">
-                  <div className="profile-card-frame">
-                    <Image
-                      src="/profile.jpeg"
-                      alt="Portrait of Naveed Shaik"
-                      width={460}
-                      height={460}
-                      className="profile-image"
-                      priority
-                    />
+                <div className="profile-orbit-card">
+                  <div className="profile-orbit-shell">
+                    <div className="profile-orbit-ring profile-orbit-ring-a" />
+                    <div className="profile-orbit-ring profile-orbit-ring-b" />
+                    <div className="profile-image-shell">
+                      <Image
+                        src="/profile.jpeg"
+                        alt="Portrait of Naveed Shaik"
+                        width={320}
+                        height={320}
+                        className="profile-image"
+                        priority
+                      />
+                    </div>
                   </div>
                   <div className="profile-card-copy">
                     <span className="profile-card-tag">Naveed Shaik</span>
