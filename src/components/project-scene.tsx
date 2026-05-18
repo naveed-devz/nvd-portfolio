@@ -58,11 +58,7 @@ export function ProjectScene({ variant }: { variant: SceneVariant }) {
   return <div className={`project-scene project-scene-${variant}`} ref={ref} />;
 }
 
-function renderRouteEye(
-  svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
-  width: number,
-  height: number,
-) {
+function renderRouteEye(svg: any, width: number, height: number) {
   const pathData =
     "M136,138 C176,116 214,110 246,90 C276,72 304,54 330,40";
 
@@ -119,7 +115,7 @@ function renderRouteEye(
 
   svg
     .selectAll(".route-node")
-    .data<RouteNode>([
+    .data([
       { x: 136, y: 138, color: "#3558b2" },
       { x: 246, y: 90, color: "#3558b2" },
       { x: 330, y: 40, color: "#5f9f5b" },
@@ -201,11 +197,7 @@ function renderRouteEye(
     .text("Driver checks route in real time");
 }
 
-function renderKalrav(
-  svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
-  width: number,
-  height: number,
-) {
+function renderKalrav(svg: any, width: number, height: number) {
   const uploader = svg.append("g").attr("transform", "translate(54,92)");
   uploader.append("circle").attr("r", 16).attr("cy", -22).attr("fill", "#d56d44");
   uploader
@@ -348,11 +340,7 @@ function renderKalrav(
     .text("Upload once, shared everywhere");
 }
 
-function renderEcai(
-  svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
-  width: number,
-  height: number,
-) {
+function renderEcai(svg: any, width: number, height: number) {
   const frame = svg.append("g").attr("transform", "translate(32,22)");
 
   frame
@@ -392,7 +380,7 @@ function renderEcai(
 
   frame
     .selectAll(".secure-link")
-    .data<number[]>([
+    .data([
       [148, 78, 190, 60],
       [190, 60, 234, 86],
       [234, 86, 274, 68],
