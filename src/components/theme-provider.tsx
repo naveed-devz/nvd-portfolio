@@ -26,9 +26,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<ThemeValue>(DEFAULT_THEME);
 
   useEffect(() => {
-    const storedTheme = window.localStorage.getItem(STORAGE_KEY) as
-      | ThemeValue
-      | null;
+    const storedTheme = window.localStorage.getItem(STORAGE_KEY);
 
     if (storedTheme === "rehman-neon") {
       setThemeState("aurora-neon");
@@ -38,8 +36,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
 
     if (storedTheme && THEMES.some((item) => item.value === storedTheme)) {
-      setThemeState(storedTheme);
-      document.documentElement.dataset.theme = storedTheme;
+      const nextTheme = storedTheme as ThemeValue;
+      setThemeState(nextTheme);
+      document.documentElement.dataset.theme = nextTheme;
       return;
     }
 
