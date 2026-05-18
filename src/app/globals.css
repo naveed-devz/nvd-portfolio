@@ -661,7 +661,7 @@ a,
 
 .profile-orbit-shell {
   position: relative;
-  width: min(100%, 16rem);
+  width: min(100%, 22.5rem);
   aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
@@ -691,7 +691,7 @@ a,
 .profile-image-shell {
   position: relative;
   z-index: 1;
-  width: min(100%, 11.75rem);
+  width: min(100%, 18rem);
   aspect-ratio: 1 / 1;
   border-radius: 999px;
   padding: 0.45rem;
