@@ -72,7 +72,7 @@ const droplets: DropletParticle[] = d3.range(10).map((index: number) => ({
   speed: 0.75 + (index % 4) * 0.18,
 }));
 
-export function HeroNetwork() {
+export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -81,8 +81,8 @@ export function HeroNetwork() {
       return;
     }
 
-    const width = 420;
-    const height = 320;
+    const width = mode === "ambient" ? 1440 : 420;
+    const height = mode === "ambient" ? 980 : 320;
     const pointer = { x: width / 2, y: height / 2 };
 
     root.innerHTML = "";
@@ -115,17 +115,17 @@ export function HeroNetwork() {
 
     svg
       .append("circle")
-      .attr("cx", 210)
-      .attr("cy", 156)
-      .attr("r", 126)
+      .attr("cx", width * 0.5)
+      .attr("cy", height * 0.38)
+      .attr("r", mode === "ambient" ? 250 : 126)
       .attr("fill", "url(#heroHalo)");
 
     const halo = defs
       .append("radialGradient")
       .attr("id", "heroHalo");
 
-    halo.append("stop").attr("offset", "0%").attr("stop-color", "#A5C8D6").attr("stop-opacity", 0.24);
-    halo.append("stop").attr("offset", "55%").attr("stop-color", "#A5C8D6").attr("stop-opacity", 0.08);
+    halo.append("stop").attr("offset", "0%").attr("stop-color", "#A5C8D6").attr("stop-opacity", mode === "ambient" ? 0.14 : 0.24);
+    halo.append("stop").attr("offset", "55%").attr("stop-color", "#A5C8D6").attr("stop-opacity", mode === "ambient" ? 0.05 : 0.08);
     halo.append("stop").attr("offset", "100%").attr("stop-color", "#A5C8D6").attr("stop-opacity", 0);
 
     const dustGroup = svg.append("g");
@@ -140,7 +140,7 @@ export function HeroNetwork() {
       .enter()
       .append("circle")
       .attr("class", "network-dust")
-      .attr("fill", "rgba(91,102,119,0.34)")
+      .attr("fill", mode === "ambient" ? "rgba(91,102,119,0.18)" : "rgba(91,102,119,0.34)")
       .attr("r", (d: DustParticle) => d.radius);
 
     const dropletSelection = dropletGroup
@@ -149,7 +149,7 @@ export function HeroNetwork() {
       .enter()
       .append("circle")
       .attr("class", "network-droplet")
-      .attr("fill", "rgba(53, 88, 178, 0.34)")
+      .attr("fill", mode === "ambient" ? "rgba(53, 88, 178, 0.16)" : "rgba(53, 88, 178, 0.34)")
       .attr("r", (d: DropletParticle) => d.radius);
 
     const linkSelection = linkGroup
@@ -165,7 +165,7 @@ export function HeroNetwork() {
       .enter()
       .append("circle")
       .attr("fill", (d: StarNode) => d.color)
-      .attr("opacity", 0.2);
+      .attr("opacity", mode === "ambient" ? 0.1 : 0.2);
 
     const nodeSelection = nodeGroup
       .selectAll("circle")
@@ -183,8 +183,8 @@ export function HeroNetwork() {
       const positions = coreNodes.map((node, index: number) => {
         const orbitX = Math.sin(tick + index * 0.72) * 10 * node.depth;
         const orbitY = Math.cos(tick * 0.92 + index * 0.58) * 12 * node.depth;
-        const pointerX = (pointer.x - width / 2) * 0.014 * node.depth;
-        const pointerY = (pointer.y - height / 2) * 0.014 * node.depth;
+        const pointerX = (pointer.x - width / 2) * (mode === "ambient" ? 0.007 : 0.014) * node.depth;
+        const pointerY = (pointer.y - height / 2) * (mode === "ambient" ? 0.007 : 0.014) * node.depth;
 
         return {
           ...node,
@@ -199,19 +199,19 @@ export function HeroNetwork() {
       dustSelection
         .attr("cx", (d: DustParticle, i: number) => d.x + Math.sin(tick * d.drift + i) * 6)
         .attr("cy", (d: DustParticle, i: number) => d.y + Math.cos(tick * d.drift + i * 0.3) * 6)
-        .attr("opacity", (_d: DustParticle, i: number) => 0.18 + (Math.sin(tick + i) + 1) * 0.12);
+        .attr("opacity", (_d: DustParticle, i: number) => (mode === "ambient" ? 0.08 : 0.18) + (Math.sin(tick + i) + 1) * (mode === "ambient" ? 0.05 : 0.12));
 
       dropletSelection
         .attr("cx", (d: DropletParticle, i: number) => d.x + Math.sin(tick * 0.9 + i) * 10)
         .attr("cy", (d: DropletParticle, i: number) => ((d.y + elapsed * 0.04 * d.speed + i * 6) % (height + 40)) - 20)
-        .attr("opacity", (_d: DropletParticle, i: number) => 0.18 + (Math.sin(tick * 1.4 + i) + 1) * 0.18);
+        .attr("opacity", (_d: DropletParticle, i: number) => (mode === "ambient" ? 0.05 : 0.18) + (Math.sin(tick * 1.4 + i) + 1) * (mode === "ambient" ? 0.08 : 0.18));
 
       linkSelection
         .attr("x1", (d: StarLink) => dynamic.get(d.source)?.px ?? lookup.get(d.source)?.x ?? 0)
         .attr("y1", (d: StarLink) => dynamic.get(d.source)?.py ?? lookup.get(d.source)?.y ?? 0)
         .attr("x2", (d: StarLink) => dynamic.get(d.target)?.px ?? lookup.get(d.target)?.x ?? 0)
         .attr("y2", (d: StarLink) => dynamic.get(d.target)?.py ?? lookup.get(d.target)?.y ?? 0)
-        .attr("opacity", (_d: StarLink, i: number) => 0.18 + (Math.sin(tick + i * 0.6) + 1) * 0.12);
+        .attr("opacity", (_d: StarLink, i: number) => (mode === "ambient" ? 0.06 : 0.18) + (Math.sin(tick + i * 0.6) + 1) * (mode === "ambient" ? 0.05 : 0.12));
 
       nodeSelection
         .attr("cx", (d: StarNode) => dynamic.get(d.id)?.px ?? d.x)
@@ -239,15 +239,25 @@ export function HeroNetwork() {
       pointer.y = height / 2;
     };
 
-    root.addEventListener("mousemove", onMove);
-    root.addEventListener("mouseleave", onLeave);
+    const target: HTMLElement | Window = mode === "ambient" ? window : root;
+
+    target.addEventListener("mousemove", onMove as EventListener);
+    target.addEventListener("mouseleave", onLeave as EventListener);
 
     return () => {
       timer.stop();
-      root.removeEventListener("mousemove", onMove);
-      root.removeEventListener("mouseleave", onLeave);
+      target.removeEventListener("mousemove", onMove as EventListener);
+      target.removeEventListener("mouseleave", onLeave as EventListener);
     };
-  }, []);
+  }, [mode]);
+
+  if (mode === "ambient") {
+    return (
+      <div className="network-ambient" aria-hidden="true">
+        <div className="network-stage network-stage-ambient" ref={ref} />
+      </div>
+    );
+  }
 
   return (
     <div className="network-shell">

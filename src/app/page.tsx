@@ -204,6 +204,7 @@ const jsonLd = {
 export default function Home() {
   return (
     <main className="page-shell">
+      <HeroNetwork mode="ambient" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -300,7 +301,6 @@ export default function Home() {
                     <p>Full-stack engineer focused on product delivery, integrations, and scalable web apps.</p>
                   </div>
                 </div>
-                <HeroNetwork />
               </div>
             </ParallaxHero>
           </div>

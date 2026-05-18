@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --font-body: "Aptos", "Segoe UI Variable", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Aptos Display", "Segoe UI Variable Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "IBM Plex Mono", "Cascadia Code", Consolas, monospace;
+  --font-body: "Trebuchet MS", "Segoe UI", Tahoma, Geneva, Verdana, Arial, sans-serif;
+  --font-display: Georgia, "Times New Roman", Times, serif;
+  --font-mono: "IBM Plex Mono", "Courier New", Courier, monospace;
   --background: #f0f4f8;
   --surface: rgba(255, 255, 255, 0.78);
   --surface-strong: #ffffff;
@@ -267,9 +267,19 @@ a,
   position: relative;
 }
 
+.network-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
 .container {
   width: min(1160px, calc(100% - 2rem));
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-shell {
@@ -365,7 +375,7 @@ a,
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
   gap: 2.4rem;
-  align-items: center;
+  align-items: start;
   min-height: 30rem;
 }
 
@@ -424,14 +434,14 @@ a,
   gap: 0.15rem;
   margin: 0;
   max-width: 13ch;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  line-height: 0.96;
+  letter-spacing: -0.03em;
 }
 
 .hero-name-main {
   display: block;
   font-size: clamp(2.9rem, 5.2vw, 4.9rem);
-  font-weight: 800;
+  font-weight: 700;
   color: var(--foreground);
   text-shadow: 0 8px 24px rgba(27, 38, 49, 0.08);
 }
@@ -627,24 +637,31 @@ a,
 .hero-visual {
   display: flex;
   justify-content: center;
+  align-self: start;
+  padding-top: 0;
 }
 
 .hero-visual-stack {
-  width: min(100%, 30rem);
+  width: min(100%, 25rem);
   display: grid;
-  gap: 1rem;
+  gap: 0.9rem;
+  justify-items: center;
+  align-content: start;
+  padding-top: 1.6rem;
 }
 
 .profile-orbit-card {
   display: grid;
   justify-items: center;
-  gap: 1rem;
-  padding: 1.25rem 1.1rem 0.2rem;
+  gap: 0.65rem;
+  width: 100%;
+  max-width: 22rem;
+  padding: 0;
 }
 
 .profile-orbit-shell {
   position: relative;
-  width: min(100%, 22rem);
+  width: min(100%, 16rem);
   aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
@@ -674,7 +691,7 @@ a,
 .profile-image-shell {
   position: relative;
   z-index: 1;
-  width: min(100%, 15.5rem);
+  width: min(100%, 11.75rem);
   aspect-ratio: 1 / 1;
   border-radius: 999px;
   padding: 0.45rem;
@@ -696,7 +713,8 @@ a,
 
 .profile-card-copy {
   width: 100%;
-  padding: 0 0.8rem;
+  max-width: 18rem;
+  padding: 0;
   text-align: center;
 }
 
@@ -714,14 +732,14 @@ a,
 }
 
 .profile-card-copy p {
-  max-width: 22rem;
-  margin: 0.75rem auto 0;
+  max-width: 17rem;
+  margin: 0.55rem auto 0;
   color: var(--muted);
-  line-height: 1.7;
+  line-height: 1.55;
 }
 
 .network-shell {
-  width: min(100%, 30rem);
+  width: min(100%, 28rem);
   border: 1px solid var(--line);
   border-radius: 2rem;
   background: linear-gradient(180deg, var(--surface-visual-top), var(--surface-visual-bottom));
@@ -746,6 +764,13 @@ a,
     radial-gradient(circle at 20% 18%, rgba(165, 200, 214, 0.24), transparent 24%),
     radial-gradient(circle at 80% 70%, rgba(217, 228, 224, 0.45), transparent 24%),
     linear-gradient(180deg, var(--surface-visual-top), var(--surface-visual-bottom));
+}
+
+.network-stage-ambient {
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  opacity: 0.9;
 }
 
 .network-svg {
@@ -1183,11 +1208,11 @@ a,
   }
 
   .network-shell {
-    width: min(100%, 42rem);
+    width: min(100%, 34rem);
   }
 
   .hero-visual-stack {
-    width: min(100%, 42rem);
+    width: min(100%, 34rem);
   }
 }
 
@@ -1227,6 +1252,10 @@ a,
   .hero-grid {
     min-height: auto;
     gap: 1.25rem;
+  }
+
+  .hero-visual {
+    padding-top: 0;
   }
 
   .hero-copy-panel {
