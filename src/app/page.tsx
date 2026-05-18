@@ -1,6 +1,7 @@
 import { HeroNetwork } from "@/components/hero-network";
 import { FadeUp, ParallaxHero } from "@/components/motion";
 import { ProjectScene } from "@/components/project-scene";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 const stats = [
   { value: "4+ Years", label: "building full-stack software" },
@@ -206,12 +207,15 @@ export default function Home() {
               <a className="brand-mark" href="#top">
                 SN
               </a>
-              <nav className="nav-links" aria-label="Primary navigation">
-                <a href="#projects">Projects</a>
-                <a href="#experience">Experience</a>
-                <a href="#skills">Skills</a>
-                <a href="#contact">Contact</a>
-              </nav>
+              <div className="nav-group">
+                <nav className="nav-links" aria-label="Primary navigation">
+                  <a href="#projects">Projects</a>
+                  <a href="#experience">Experience</a>
+                  <a href="#skills">Skills</a>
+                  <a href="#contact">Contact</a>
+                </nav>
+                <ThemeSwitcher />
+              </div>
             </header>
           </FadeUp>
 

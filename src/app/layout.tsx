@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@/components/analytics";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://naveedshaik.com";
@@ -54,10 +55,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="default-glass">
       <body>
-        <Analytics />
-        {children}
+        <ThemeProvider>
+          <Analytics />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
