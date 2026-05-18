@@ -291,6 +291,7 @@ a,
   border: 1px solid var(--line-strong);
   border-radius: 999px;
   background: var(--surface-floating);
+  color: var(--foreground);
   box-shadow: var(--shadow);
   font-family: var(--font-display), sans-serif;
   font-weight: 700;
@@ -327,6 +328,7 @@ a,
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface-floating);
+  color: var(--foreground);
   box-shadow: 0 8px 20px rgba(35, 43, 58, 0.06);
 }
 
@@ -588,13 +590,32 @@ a,
 .button-secondary {
   border: 1px solid var(--line-strong);
   background: var(--surface-floating);
+  color: var(--foreground);
   box-shadow: 0 10px 26px rgba(53, 88, 178, 0.08);
 }
 
 .button-secondary:hover {
   transform: translateY(-3px);
   background: var(--surface-strong);
+  color: var(--foreground);
   box-shadow: 0 18px 34px rgba(53, 88, 178, 0.12);
+}
+
+.contact-links .button-primary,
+.contact-links .button-secondary,
+.hero-cta .button-primary,
+.hero-cta .button-secondary {
+  color: inherit;
+}
+
+.contact-links .button-primary,
+.hero-cta .button-primary {
+  color: var(--text-on-accent);
+}
+
+.contact-links .button-secondary,
+.hero-cta .button-secondary {
+  color: var(--foreground);
 }
 
 .hero-visual {
