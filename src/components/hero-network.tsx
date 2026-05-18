@@ -17,6 +17,22 @@ type StarLink = {
   target: string;
 };
 
+type DustParticle = {
+  id: string;
+  x: number;
+  y: number;
+  radius: number;
+  drift: number;
+};
+
+type DropletParticle = {
+  id: string;
+  x: number;
+  y: number;
+  radius: number;
+  speed: number;
+};
+
 const coreNodes: StarNode[] = [
   { id: "n1", x: 96, y: 180, radius: 5.2, depth: 0.55, color: "#5f7f90" },
   { id: "n2", x: 132, y: 102, radius: 6.2, depth: 0.7, color: "#3558b2" },
@@ -40,7 +56,7 @@ const links: StarLink[] = [
   { source: "n8", target: "n1" },
 ];
 
-const dust = d3.range(38).map((index) => ({
+const dust: DustParticle[] = d3.range(38).map((index: number) => ({
   id: `dust-${index}`,
   x: 32 + ((index * 41) % 360),
   y: 24 + ((index * 67) % 250),
@@ -48,7 +64,7 @@ const dust = d3.range(38).map((index) => ({
   drift: 0.25 + (index % 7) * 0.08,
 }));
 
-const droplets = d3.range(10).map((index) => ({
+const droplets: DropletParticle[] = d3.range(10).map((index: number) => ({
   id: `drop-${index}`,
   x: 52 + ((index * 37) % 310),
   y: -18 - index * 22,
@@ -125,7 +141,7 @@ export function HeroNetwork() {
       .append("circle")
       .attr("class", "network-dust")
       .attr("fill", "rgba(91,102,119,0.34)")
-      .attr("r", (d) => d.radius);
+      .attr("r", (d: DustParticle) => d.radius);
 
     const dropletSelection = dropletGroup
       .selectAll("circle")
@@ -134,7 +150,7 @@ export function HeroNetwork() {
       .append("circle")
       .attr("class", "network-droplet")
       .attr("fill", "rgba(53, 88, 178, 0.34)")
-      .attr("r", (d) => d.radius);
+      .attr("r", (d: DropletParticle) => d.radius);
 
     const linkSelection = linkGroup
       .selectAll("line")
@@ -148,7 +164,7 @@ export function HeroNetwork() {
       .data(coreNodes)
       .enter()
       .append("circle")
-      .attr("fill", (d) => d.color)
+      .attr("fill", (d: StarNode) => d.color)
       .attr("opacity", 0.2);
 
     const nodeSelection = nodeGroup
@@ -157,14 +173,14 @@ export function HeroNetwork() {
       .enter()
       .append("circle")
       .attr("class", "network-node")
-      .attr("fill", (d) => d.color);
+      .attr("fill", (d: StarNode) => d.color);
 
     const lookup = new Map(coreNodes.map((node) => [node.id, node]));
 
     const render = (elapsed: number) => {
       const tick = elapsed / 1200;
 
-      const positions = coreNodes.map((node, index) => {
+      const positions = coreNodes.map((node, index: number) => {
         const orbitX = Math.sin(tick + index * 0.72) * 10 * node.depth;
         const orbitY = Math.cos(tick * 0.92 + index * 0.58) * 12 * node.depth;
         const pointerX = (pointer.x - width / 2) * 0.014 * node.depth;
@@ -181,34 +197,34 @@ export function HeroNetwork() {
       const dynamic = new Map(positions.map((node) => [node.id, node]));
 
       dustSelection
-        .attr("cx", (d, i) => d.x + Math.sin(tick * d.drift + i) * 6)
-        .attr("cy", (d, i) => d.y + Math.cos(tick * d.drift + i * 0.3) * 6)
-        .attr("opacity", (d, i) => 0.18 + (Math.sin(tick + i) + 1) * 0.12);
+        .attr("cx", (d: DustParticle, i: number) => d.x + Math.sin(tick * d.drift + i) * 6)
+        .attr("cy", (d: DustParticle, i: number) => d.y + Math.cos(tick * d.drift + i * 0.3) * 6)
+        .attr("opacity", (_d: DustParticle, i: number) => 0.18 + (Math.sin(tick + i) + 1) * 0.12);
 
       dropletSelection
-        .attr("cx", (d, i) => d.x + Math.sin(tick * 0.9 + i) * 10)
-        .attr("cy", (d, i) => ((d.y + elapsed * 0.04 * d.speed + i * 6) % (height + 40)) - 20)
-        .attr("opacity", (d, i) => 0.18 + (Math.sin(tick * 1.4 + i) + 1) * 0.18);
+        .attr("cx", (d: DropletParticle, i: number) => d.x + Math.sin(tick * 0.9 + i) * 10)
+        .attr("cy", (d: DropletParticle, i: number) => ((d.y + elapsed * 0.04 * d.speed + i * 6) % (height + 40)) - 20)
+        .attr("opacity", (_d: DropletParticle, i: number) => 0.18 + (Math.sin(tick * 1.4 + i) + 1) * 0.18);
 
       linkSelection
-        .attr("x1", (d) => dynamic.get(d.source)?.px ?? lookup.get(d.source)?.x ?? 0)
-        .attr("y1", (d) => dynamic.get(d.source)?.py ?? lookup.get(d.source)?.y ?? 0)
-        .attr("x2", (d) => dynamic.get(d.target)?.px ?? lookup.get(d.target)?.x ?? 0)
-        .attr("y2", (d) => dynamic.get(d.target)?.py ?? lookup.get(d.target)?.y ?? 0)
-        .attr("opacity", (d, i) => 0.18 + (Math.sin(tick + i * 0.6) + 1) * 0.12);
+        .attr("x1", (d: StarLink) => dynamic.get(d.source)?.px ?? lookup.get(d.source)?.x ?? 0)
+        .attr("y1", (d: StarLink) => dynamic.get(d.source)?.py ?? lookup.get(d.source)?.y ?? 0)
+        .attr("x2", (d: StarLink) => dynamic.get(d.target)?.px ?? lookup.get(d.target)?.x ?? 0)
+        .attr("y2", (d: StarLink) => dynamic.get(d.target)?.py ?? lookup.get(d.target)?.y ?? 0)
+        .attr("opacity", (_d: StarLink, i: number) => 0.18 + (Math.sin(tick + i * 0.6) + 1) * 0.12);
 
       nodeSelection
-        .attr("cx", (d) => dynamic.get(d.id)?.px ?? d.x)
-        .attr("cy", (d) => dynamic.get(d.id)?.py ?? d.y)
-        .attr("r", (d) => dynamic.get(d.id)?.pr ?? d.radius);
+        .attr("cx", (d: StarNode) => dynamic.get(d.id)?.px ?? d.x)
+        .attr("cy", (d: StarNode) => dynamic.get(d.id)?.py ?? d.y)
+        .attr("r", (d: StarNode) => dynamic.get(d.id)?.pr ?? d.radius);
 
       glowSelection
-        .attr("cx", (d) => dynamic.get(d.id)?.px ?? d.x)
-        .attr("cy", (d) => dynamic.get(d.id)?.py ?? d.y)
-        .attr("r", (d) => (dynamic.get(d.id)?.pr ?? d.radius) * 3.1);
+        .attr("cx", (d: StarNode) => dynamic.get(d.id)?.px ?? d.x)
+        .attr("cy", (d: StarNode) => dynamic.get(d.id)?.py ?? d.y)
+        .attr("r", (d: StarNode) => (dynamic.get(d.id)?.pr ?? d.radius) * 3.1);
     };
 
-    const timer = d3.timer((elapsed) => {
+    const timer = d3.timer((elapsed: number) => {
       render(elapsed);
     });
 

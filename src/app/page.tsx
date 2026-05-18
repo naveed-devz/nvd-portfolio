@@ -1,6 +1,6 @@
 import { HeroNetwork } from "@/components/hero-network";
 import { FadeUp, ParallaxHero } from "@/components/motion";
-import { ProjectScene } from "@/components/project-scene";
+import { ProjectScene, type SceneVariant } from "@/components/project-scene";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 
 const stats = [
@@ -10,7 +10,15 @@ const stats = [
   { value: "5+ Clients", label: "freelance work with impact" },
 ];
 
-const featuredProjects = [
+const featuredProjects: Array<{
+  scene: SceneVariant;
+  tag: string;
+  title: string;
+  href: string;
+  summary: string;
+  details: string;
+  stack: string[];
+}> = [
   {
     scene: "routeeye",
     tag: "Tracking Platform",

@@ -3,7 +3,24 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-type SceneVariant = "routeeye" | "kalrav" | "ecai";
+export type SceneVariant = "routeeye" | "kalrav" | "ecai";
+
+type RouteNode = {
+  x: number;
+  y: number;
+  color: string;
+};
+
+type ConsumerUser = {
+  x: number;
+  y: number;
+  color: string;
+};
+
+type DocNode = {
+  x: number;
+  y: number;
+};
 
 export function ProjectScene({ variant }: { variant: SceneVariant }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -102,17 +119,17 @@ function renderRouteEye(
 
   svg
     .selectAll(".route-node")
-    .data([
+    .data<RouteNode>([
       { x: 136, y: 138, color: "#3558b2" },
       { x: 246, y: 90, color: "#3558b2" },
       { x: 330, y: 40, color: "#5f9f5b" },
     ])
     .enter()
     .append("circle")
-    .attr("cx", (d) => d.x)
-    .attr("cy", (d) => d.y)
+    .attr("cx", (d: RouteNode) => d.x)
+    .attr("cy", (d: RouteNode) => d.y)
     .attr("r", 5.5)
-    .attr("fill", (d) => d.color)
+    .attr("fill", (d: RouteNode) => d.color)
     .attr("stroke", "#ffffff")
     .attr("stroke-width", 2);
 
@@ -144,7 +161,7 @@ function renderRouteEye(
     .data([-7, 7])
     .enter()
     .append("circle")
-    .attr("cx", (d) => d)
+    .attr("cx", (d: number) => d)
     .attr("cy", 8)
     .attr("r", 2.6)
     .attr("fill", "#d56d44");
@@ -155,9 +172,9 @@ function renderRouteEye(
     vehicle
       .transition()
       .duration(5200)
-      .ease(d3.easeLinear)
-      .attrTween("transform", () => {
-        return (t) => {
+        .ease(d3.easeLinear)
+        .attrTween("transform", () => {
+        return (t: number) => {
           const point = (route.node() as SVGPathElement).getPointAtLength(t * totalLength);
           return `translate(${point.x},${point.y})`;
         };
@@ -169,7 +186,7 @@ function renderRouteEye(
       .duration(5200)
       .ease(d3.easeLinear)
       .attrTween("stroke-dasharray", () => {
-        return (t) => `${Math.max(12, t * totalLength * 0.34)} 14`;
+        return (t: number) => `${Math.max(12, t * totalLength * 0.34)} 14`;
       });
   }
 
@@ -221,7 +238,7 @@ function renderKalrav(
     .attr("rx", 3)
     .attr("fill", "rgba(53, 88, 178, 0.12)");
 
-  const users = [
+  const users: ConsumerUser[] = [
     { x: 282, y: 54, color: "#3558b2" },
     { x: 314, y: 92, color: "#5f9f5b" },
     { x: 280, y: 126, color: "#d56d44" },
@@ -287,20 +304,20 @@ function renderKalrav(
   const bLen = (fanOutB.node() as SVGPathElement).getTotalLength();
   const cLen = (fanOutC.node() as SVGPathElement).getTotalLength();
 
-  d3.timer((elapsed) => {
-    forwardDots.attr("opacity", (_, i) => ((elapsed / 500 + i) % 4) / 4 + 0.25);
-    responseDots.attr("opacity", (_, i) => ((elapsed / 620 + i) % 6) / 6 + 0.25);
+  d3.timer((elapsed: number) => {
+    forwardDots.attr("opacity", (_d: number, i: number) => ((elapsed / 500 + i) % 4) / 4 + 0.25);
+    responseDots.attr("opacity", (_d: number, i: number) => ((elapsed / 620 + i) % 6) / 6 + 0.25);
 
-    forwardDots.attr("cx", (_, i) => {
+    forwardDots.attr("cx", (_d: number, i: number) => {
       const point = (uploadPath.node() as SVGPathElement).getPointAtLength((elapsed / 10 + i * 20) % uploadLength);
       return point.x;
     });
-    forwardDots.attr("cy", (_, i) => {
+    forwardDots.attr("cy", (_d: number, i: number) => {
       const point = (uploadPath.node() as SVGPathElement).getPointAtLength((elapsed / 10 + i * 20) % uploadLength);
       return point.y;
     });
 
-    responseDots.attr("cx", (_, i) => {
+    responseDots.attr("cx", (_d: number, i: number) => {
       const targets = [
         [fanOutA.node() as SVGPathElement, aLen],
         [fanOutB.node() as SVGPathElement, bLen],
@@ -310,7 +327,7 @@ function renderKalrav(
       const point = path.getPointAtLength((elapsed / 8 + i * 18) % len);
       return point.x;
     });
-    responseDots.attr("cy", (_, i) => {
+    responseDots.attr("cy", (_d: number, i: number) => {
       const targets = [
         [fanOutA.node() as SVGPathElement, aLen],
         [fanOutB.node() as SVGPathElement, bLen],
@@ -366,7 +383,7 @@ function renderEcai(
     .attr("class", "scene-panel-title")
     .text("Internal RAG workspace");
 
-  const docs = [
+  const docs: DocNode[] = [
     { x: 148, y: 78 },
     { x: 190, y: 60 },
     { x: 234, y: 86 },
@@ -375,17 +392,17 @@ function renderEcai(
 
   frame
     .selectAll(".secure-link")
-    .data([
+    .data<number[]>([
       [148, 78, 190, 60],
       [190, 60, 234, 86],
       [234, 86, 274, 68],
     ])
     .enter()
     .append("line")
-    .attr("x1", (d) => d[0])
-    .attr("y1", (d) => d[1])
-    .attr("x2", (d) => d[2])
-    .attr("y2", (d) => d[3])
+    .attr("x1", (d: number[]) => d[0])
+    .attr("y1", (d: number[]) => d[1])
+    .attr("x2", (d: number[]) => d[2])
+    .attr("y2", (d: number[]) => d[3])
     .attr("stroke", "rgba(53, 88, 178, 0.22)")
     .attr("stroke-width", 2);
 
@@ -394,10 +411,10 @@ function renderEcai(
     .data(docs)
     .enter()
     .append("rect")
-    .attr("cx", (d) => d.x)
-    .attr("cy", (d) => d.y)
-    .attr("x", (d) => d.x - 10)
-    .attr("y", (d) => d.y - 12)
+    .attr("cx", (d: DocNode) => d.x)
+    .attr("cy", (d: DocNode) => d.y)
+    .attr("x", (d: DocNode) => d.x - 10)
+    .attr("y", (d: DocNode) => d.y - 12)
     .attr("width", 20)
     .attr("height", 24)
     .attr("rx", 5)
@@ -442,8 +459,8 @@ function renderEcai(
 
   moveToken();
 
-  d3.timer((elapsed) => {
-    secureNodes.attr("opacity", (_, i) => 0.6 + 0.35 * Math.sin(elapsed / 420 + i));
+  d3.timer((elapsed: number) => {
+    secureNodes.attr("opacity", (_d: DocNode, i: number) => 0.6 + 0.35 * Math.sin(elapsed / 420 + i));
     lock.attr("transform", `translate(60,67) scale(${1 + Math.sin(elapsed / 600) * 0.035})`);
   });
 
