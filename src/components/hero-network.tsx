@@ -33,6 +33,16 @@ type DropletParticle = {
   speed: number;
 };
 
+type SideBubble = {
+  id: string;
+  side: "left" | "right";
+  x: number;
+  y: number;
+  radius: number;
+  speed: number;
+  drift: number;
+};
+
 const coreNodes: StarNode[] = [
   { id: "n1", x: 96, y: 180, radius: 5.2, depth: 0.55, color: "#5f7f90" },
   { id: "n2", x: 132, y: 102, radius: 6.2, depth: 0.7, color: "#3558b2" },
@@ -72,6 +82,16 @@ const droplets: DropletParticle[] = d3.range(10).map((index: number) => ({
   speed: 0.75 + (index % 4) * 0.18,
 }));
 
+const sideBubbles: SideBubble[] = d3.range(18).map((index: number) => ({
+  id: `side-${index}`,
+  side: index % 2 === 0 ? "left" : "right",
+  x: index % 2 === 0 ? 72 + (index % 3) * 26 : 1368 - (index % 3) * 28,
+  y: 40 + ((index * 91) % 880),
+  radius: 3.4 + (index % 4) * 1.1,
+  speed: 0.42 + (index % 5) * 0.06,
+  drift: 0.3 + (index % 4) * 0.08,
+}));
+
 export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -84,6 +104,7 @@ export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) 
     const width = mode === "ambient" ? 1440 : 420;
     const height = mode === "ambient" ? 980 : 320;
     const pointer = { x: width / 2, y: height / 2 };
+    let scrollProgress = 0;
 
     root.innerHTML = "";
 
@@ -130,6 +151,7 @@ export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) 
 
     const dustGroup = svg.append("g");
     const dropletGroup = svg.append("g");
+    const sideBubbleGroup = svg.append("g");
     const linkGroup = svg.append("g");
     const glowGroup = svg.append("g").attr("filter", "url(#portfolioGlow)");
     const nodeGroup = svg.append("g");
@@ -151,6 +173,17 @@ export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) 
       .attr("class", "network-droplet")
       .attr("fill", mode === "ambient" ? "rgba(53, 88, 178, 0.16)" : "rgba(53, 88, 178, 0.34)")
       .attr("r", (d: DropletParticle) => d.radius);
+
+    const sideBubbleSelection = sideBubbleGroup
+      .selectAll("circle")
+      .data(mode === "ambient" ? sideBubbles : [])
+      .enter()
+      .append("circle")
+      .attr("class", "network-side-bubble")
+      .attr("fill", "rgba(255, 255, 255, 0.1)")
+      .attr("stroke", "rgba(165, 200, 214, 0.42)")
+      .attr("stroke-width", 1.25)
+      .attr("r", (d: SideBubble) => d.radius);
 
     const linkSelection = linkGroup
       .selectAll("line")
@@ -206,6 +239,19 @@ export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) 
         .attr("cy", (d: DropletParticle, i: number) => ((d.y + elapsed * 0.04 * d.speed + i * 6) % (height + 40)) - 20)
         .attr("opacity", (_d: DropletParticle, i: number) => (mode === "ambient" ? 0.05 : 0.18) + (Math.sin(tick * 1.4 + i) + 1) * (mode === "ambient" ? 0.08 : 0.18));
 
+      sideBubbleSelection
+        .attr("cx", (d: SideBubble, i: number) => {
+          const direction = d.side === "left" ? 1 : -1;
+          return d.x + Math.sin(tick * d.drift + i * 0.7) * 18 * direction;
+        })
+        .attr("cy", (d: SideBubble, i: number) => {
+          const scrollLift = scrollProgress * (26 + (i % 5) * 8);
+          return ((d.y - elapsed * d.speed + Math.sin(tick + i) * 8 - scrollLift) % (height + 140)) + 40;
+        })
+        .attr("opacity", (_d: SideBubble, i: number) => {
+          return 0.16 + (Math.sin(tick * 1.2 + i) + 1) * 0.12 + Math.min(scrollProgress * 0.18, 0.18);
+        });
+
       linkSelection
         .attr("x1", (d: StarLink) => dynamic.get(d.source)?.px ?? lookup.get(d.source)?.x ?? 0)
         .attr("y1", (d: StarLink) => dynamic.get(d.source)?.py ?? lookup.get(d.source)?.y ?? 0)
@@ -239,15 +285,28 @@ export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) 
       pointer.y = height / 2;
     };
 
+    const onScroll = () => {
+      const scrollTop = window.scrollY;
+      const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      scrollProgress = Math.min(scrollTop / maxScroll, 1);
+    };
+
     const target: HTMLElement | Window = mode === "ambient" ? window : root;
 
     target.addEventListener("mousemove", onMove as EventListener);
     target.addEventListener("mouseleave", onLeave as EventListener);
+    if (mode === "ambient") {
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
 
     return () => {
       timer.stop();
       target.removeEventListener("mousemove", onMove as EventListener);
       target.removeEventListener("mouseleave", onLeave as EventListener);
+      if (mode === "ambient") {
+        window.removeEventListener("scroll", onScroll);
+      }
     };
   }, [mode]);
 

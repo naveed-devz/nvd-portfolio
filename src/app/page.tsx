@@ -330,29 +330,46 @@ export default function Home() {
           </p>
         </FadeUp>
 
-        <div className="project-grid">
+        <div className="project-showcase-list">
           {featuredProjects.map((project, index) => (
             <FadeUp key={project.title} delay={index * 0.08}>
-              <article className="project-card">
-                <ProjectScene variant={project.scene} />
-                <span className="project-tag">{project.tag}</span>
-                <h3>{project.title}</h3>
-                <p className="project-summary">{project.summary}</p>
-                <p className="project-details">{project.details}</p>
-                {project.href.startsWith("http") ? (
-                  <a
-                    className="project-link"
-                    href={project.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Explore project
-                  </a>
-                ) : (
-                  <a className="project-link" href={project.href}>
-                    Explore project
-                  </a>
-                )}
+              <article
+                className={`project-showcase ${index % 2 === 1 ? "project-showcase-reverse" : ""}`}
+              >
+                <div className="project-showcase-copy">
+                  <span className="project-tag">{project.tag}</span>
+                  <h3>{project.title}</h3>
+                  <p className="project-summary">{project.summary}</p>
+                  <p className="project-details">{project.details}</p>
+                  <div className="project-stack-row">
+                    {project.stack.slice(0, 6).map((item) => (
+                      <span className="chip" key={item}>
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                  {project.href.startsWith("http") ? (
+                    <a
+                      className="project-link"
+                      href={project.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Explore project
+                    </a>
+                  ) : (
+                    <a className="project-link" href={project.href}>
+                      Explore project
+                    </a>
+                  )}
+                </div>
+
+                <div className="project-showcase-visual">
+                  <div className="project-showcase-frame">
+                    <div className="project-showcase-glow" />
+                    <ProjectScene variant={project.scene} />
+                  </div>
+                </div>
               </article>
             </FadeUp>
           ))}
