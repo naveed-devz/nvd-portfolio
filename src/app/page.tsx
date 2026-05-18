@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ContactForm } from "@/components/contact-form";
 import { HeroNetwork } from "@/components/hero-network";
 import { FadeUp, ParallaxHero } from "@/components/motion";
 import { ProjectScene, type SceneVariant } from "@/components/project-scene";
@@ -470,31 +471,14 @@ export default function Home() {
         <FadeUp delay={0.1}>
           <article className="closing-card" id="contact">
             <p className="eyebrow">Connect</p>
-            <h2>Open to full-stack roles across product, platform, and integration-heavy teams.</h2>
+            <h2>Open to full-stack roles and freelance leads through the website directly.</h2>
             <p>
               Especially interested in backend-strong full-stack work involving
               Java, Node.js, Spring Boot, real-time systems, educational
               products, tracking platforms, connected SaaS experiences, payment
               integrations, and integration-heavy business applications.
             </p>
-            <div className="contact-links">
-              <a
-                className="button-primary"
-                href="mailto:snaveedn23@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Email
-              </a>
-              <a
-                className="button-secondary"
-                href="https://www.linkedin.com/in/sh-naveed/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
-            </div>
+            <ContactForm />
           </article>
         </FadeUp>
       </section>

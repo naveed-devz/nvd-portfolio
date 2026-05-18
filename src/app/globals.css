@@ -526,7 +526,8 @@ a,
 .hero-tags,
 .chip-row,
 .contact-links,
-.hero-cta {
+.hero-cta,
+.contact-form-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem;
@@ -552,6 +553,83 @@ a,
 .hero-cta,
 .contact-links {
   margin-top: 1.6rem;
+}
+
+.contact-form {
+  margin-top: 1.6rem;
+}
+
+.contact-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.contact-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.contact-field span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.contact-field input,
+.contact-field textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface-floating);
+  color: var(--foreground);
+  padding: 0.9rem 1rem;
+  font: inherit;
+  outline: none;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
+}
+
+.contact-field input::placeholder,
+.contact-field textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.72;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+  border-color: var(--line-strong);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.contact-field textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+.contact-field-full {
+  margin-top: 0.9rem;
+}
+
+.contact-form-actions {
+  margin-top: 1rem;
+}
+
+.contact-feedback {
+  margin: 0.9rem 0 0;
+  font-size: 0.95rem;
+}
+
+.contact-feedback-success {
+  color: #3f8c52;
+}
+
+.contact-feedback-error {
+  color: #c84c4c;
 }
 
 .hero-links {
@@ -1329,6 +1407,10 @@ a,
   .stats-grid,
   .skills-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-form-grid {
+    grid-template-columns: 1fr;
   }
 
   .sticky-heading {
