@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 export const THEMES = [
   { value: "default-glass", label: "Default Glass" },
-  { value: "rehman-neon", label: "Rehman Neon" },
+  { value: "aurora-neon", label: "Aurora Neon" },
   { value: "midnight-grid", label: "Midnight Grid" },
   { value: "minimal-paper", label: "Minimal Paper" },
   { value: "studio-dark", label: "Studio Dark" },
@@ -29,6 +29,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const storedTheme = window.localStorage.getItem(STORAGE_KEY) as
       | ThemeValue
       | null;
+
+    if (storedTheme === "rehman-neon") {
+      setThemeState("aurora-neon");
+      document.documentElement.dataset.theme = "aurora-neon";
+      window.localStorage.setItem(STORAGE_KEY, "aurora-neon");
+      return;
+    }
 
     if (storedTheme && THEMES.some((item) => item.value === storedTheme)) {
       setThemeState(storedTheme);

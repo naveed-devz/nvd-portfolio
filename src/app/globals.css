@@ -25,6 +25,7 @@
   --surface-hero-bottom: rgba(255, 255, 255, 0.58);
   --surface-visual-top: rgba(255, 255, 255, 0.94);
   --surface-visual-bottom: rgba(240, 244, 248, 0.88);
+  --button-primary-bg: #1b2631;
   --text-on-accent: #f8f6f2;
   --button-primary-hover: #273245;
   --shadow: 0 20px 60px rgba(35, 43, 58, 0.1);
@@ -53,13 +54,14 @@ html[data-theme="default-glass"] {
   --surface-hero-bottom: rgba(255, 255, 255, 0.58);
   --surface-visual-top: rgba(255, 255, 255, 0.94);
   --surface-visual-bottom: rgba(240, 244, 248, 0.88);
+  --button-primary-bg: #1b2631;
   --text-on-accent: #f8f6f2;
   --button-primary-hover: #273245;
   --shadow: 0 20px 60px rgba(35, 43, 58, 0.1);
   --shadow-strong: 0 30px 90px rgba(35, 43, 58, 0.16);
 }
 
-html[data-theme="rehman-neon"] {
+html[data-theme="aurora-neon"] {
   --background: #06101a;
   --surface: rgba(8, 18, 31, 0.78);
   --surface-strong: rgba(11, 24, 41, 0.96);
@@ -81,6 +83,7 @@ html[data-theme="rehman-neon"] {
   --surface-hero-bottom: rgba(8, 18, 31, 0.8);
   --surface-visual-top: rgba(14, 30, 50, 0.96);
   --surface-visual-bottom: rgba(8, 18, 31, 0.9);
+  --button-primary-bg: #17d6ff;
   --text-on-accent: #031018;
   --button-primary-hover: #2ae0ff;
   --shadow: 0 20px 60px rgba(0, 0, 0, 0.34);
@@ -109,6 +112,7 @@ html[data-theme="midnight-grid"] {
   --surface-hero-bottom: rgba(17, 24, 39, 0.76);
   --surface-visual-top: rgba(30, 41, 59, 0.94);
   --surface-visual-bottom: rgba(15, 23, 42, 0.88);
+  --button-primary-bg: #2563eb;
   --text-on-accent: #eff6ff;
   --button-primary-hover: #334155;
   --shadow: 0 18px 54px rgba(2, 6, 23, 0.34);
@@ -137,6 +141,7 @@ html[data-theme="minimal-paper"] {
   --surface-hero-bottom: rgba(255, 247, 238, 0.7);
   --surface-visual-top: rgba(255, 253, 249, 0.94);
   --surface-visual-bottom: rgba(251, 245, 236, 0.9);
+  --button-primary-bg: #292524;
   --text-on-accent: #fffdf9;
   --button-primary-hover: #3f2f25;
   --shadow: 0 18px 54px rgba(68, 64, 60, 0.1);
@@ -165,6 +170,7 @@ html[data-theme="studio-dark"] {
   --surface-hero-bottom: rgba(31, 31, 35, 0.8);
   --surface-visual-top: rgba(53, 53, 60, 0.94);
   --surface-visual-bottom: rgba(31, 31, 35, 0.9);
+  --button-primary-bg: #f472b6;
   --text-on-accent: #fff6fb;
   --button-primary-hover: #3f3f46;
   --shadow: 0 20px 60px rgba(0, 0, 0, 0.34);
@@ -190,7 +196,7 @@ body {
     linear-gradient(180deg, #f8fbfd 0%, var(--background) 54%, #d9e4e0 100%);
 }
 
-html[data-theme="rehman-neon"] body {
+html[data-theme="aurora-neon"] body {
   background:
     radial-gradient(circle at 12% 12%, var(--glow-a), transparent 18%),
     radial-gradient(circle at 85% 16%, var(--glow-b), transparent 16%),
@@ -576,7 +582,7 @@ a,
 }
 
 .button-primary {
-  background: var(--foreground);
+  background: var(--button-primary-bg);
   color: var(--text-on-accent);
   box-shadow: 0 12px 30px rgba(27, 38, 49, 0.18);
 }
@@ -621,6 +627,61 @@ a,
 .hero-visual {
   display: flex;
   justify-content: center;
+}
+
+.hero-visual-stack {
+  width: min(100%, 30rem);
+  display: grid;
+  gap: 1rem;
+}
+
+.profile-card {
+  border: 1px solid var(--line);
+  border-radius: 2rem;
+  background:
+    linear-gradient(180deg, var(--surface-overlay-top), var(--surface-overlay-bottom)),
+    var(--surface);
+  box-shadow: var(--shadow-strong);
+  overflow: hidden;
+}
+
+.profile-card-frame {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background:
+    radial-gradient(circle at 18% 18%, var(--glow-a), transparent 28%),
+    linear-gradient(180deg, var(--surface-visual-top), var(--surface-visual-bottom));
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-card-copy {
+  padding: 1rem 1.1rem 1.15rem;
+  border-top: 1px solid var(--line);
+}
+
+.profile-card-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.34rem 0.7rem;
+  border-radius: 999px;
+  background: var(--surface-chip);
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.profile-card-copy p {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  line-height: 1.7;
 }
 
 .network-shell {
@@ -1086,6 +1147,10 @@ a,
   }
 
   .network-shell {
+    width: min(100%, 42rem);
+  }
+
+  .hero-visual-stack {
     width: min(100%, 42rem);
   }
 }

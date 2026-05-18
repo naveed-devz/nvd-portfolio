@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { HeroNetwork } from "@/components/hero-network";
 import { FadeUp, ParallaxHero } from "@/components/motion";
 import { ProjectScene, type SceneVariant } from "@/components/project-scene";
@@ -278,7 +279,25 @@ export default function Home() {
             </FadeUp>
 
             <ParallaxHero className="hero-visual">
-              <HeroNetwork />
+              <div className="hero-visual-stack">
+                <div className="profile-card">
+                  <div className="profile-card-frame">
+                    <Image
+                      src="/profile.jpeg"
+                      alt="Portrait of Naveed Shaik"
+                      width={460}
+                      height={460}
+                      className="profile-image"
+                      priority
+                    />
+                  </div>
+                  <div className="profile-card-copy">
+                    <span className="profile-card-tag">Naveed Shaik</span>
+                    <p>Full-stack engineer focused on product delivery, integrations, and scalable web apps.</p>
+                  </div>
+                </div>
+                <HeroNetwork />
+              </div>
             </ParallaxHero>
           </div>
 
