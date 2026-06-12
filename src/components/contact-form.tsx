@@ -33,7 +33,16 @@ export function ContactForm() {
         body: JSON.stringify(payload),
       });
 
-      const data = (await response.json()) as { error?: string; success?: boolean };
+      const raw = await response.text();
+      let data: { error?: string; success?: boolean } = {};
+
+      if (raw) {
+        try {
+          data = JSON.parse(raw) as { error?: string; success?: boolean };
+        } catch {
+          data = {};
+        }
+      }
 
       if (!response.ok || !data.success) {
         throw new Error(data.error ?? "Something went wrong while sending the message.");
@@ -105,7 +114,12 @@ export function ContactForm() {
       </div>
 
       {message ? (
-        <p className={`contact-feedback contact-feedback-${status}`}>{message}</p>
+        <p
+          className={`contact-feedback contact-feedback-${status}`}
+          aria-live="polite"
+        >
+          {message}
+        </p>
       ) : null}
     </form>
   );

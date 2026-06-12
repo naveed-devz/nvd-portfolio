@@ -7,7 +7,7 @@ import { ThemeSwitcher } from "@/components/theme-switcher";
 
 const stats = [
   { value: "4+ Years", label: "building full-stack software" },
-  { value: "Java + Node.js", label: "backend-strong engineering" },
+  { value: "Python + Node.js", label: "backend-strong engineering" },
   { value: "NPM Published", label: "@irisidea/kalrav-ai shipped" },
   { value: "5+ Clients", label: "freelance work with impact" },
 ];
@@ -137,7 +137,7 @@ const skillGroups = [
   },
   {
     title: "Backend",
-    items: ["Java", "Spring Boot", "Node.js", "Express.js", "GraphQL", "REST APIs", "Prisma ORM", "MySQL", "MongoDB"],
+    items: ["Python", "FastAPI", "Node.js", "Express.js", "GraphQL", "REST APIs", "Prisma ORM", "MySQL", "MongoDB"],
   },
   {
     title: "Core Engineering",
@@ -170,7 +170,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "S. Naveed",
-  jobTitle: "Java and Node.js Full-stack Developer",
+  jobTitle: "Python, FastAPI and Node.js Full-stack Developer",
   url: siteUrl,
   sameAs: [
     "https://www.linkedin.com/in/sh-naveed/",
@@ -181,8 +181,8 @@ const jsonLd = {
     name: "JNTU Anantapur",
   },
   knowsAbout: [
-    "Java",
-    "Spring Boot",
+    "Python",
+    "FastAPI",
     "Node.js",
     "React.js",
     "Data structures and algorithms",
@@ -260,7 +260,7 @@ export default function Home() {
 
                 <div className="hero-points">
                   <span>Builds production-ready web apps</span>
-                  <span>Works across Java, Node.js, React, and Next.js</span>
+                  <span>Works across Python, FastAPI, Node.js, React, and Next.js</span>
                   <span>Delivers tracking, school, AI, and business tools</span>
                 </div>
               </div>
@@ -474,7 +474,7 @@ export default function Home() {
             <h2>Open to full-stack roles and freelance leads through the website directly.</h2>
             <p>
               Especially interested in backend-strong full-stack work involving
-              Java, Node.js, Spring Boot, real-time systems, educational
+              Python, FastAPI, Node.js, real-time systems, educational
               products, tracking platforms, connected SaaS experiences, payment
               integrations, and integration-heavy business applications.
             </p>
