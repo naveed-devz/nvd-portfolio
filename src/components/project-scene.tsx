@@ -1,462 +1,265 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import * as d3 from "d3";
-
 export type SceneVariant = "routeeye" | "kalrav" | "ecai";
 
-type RouteNode = {
-  x: number;
-  y: number;
-  color: string;
-};
-
-type ConsumerUser = {
-  x: number;
-  y: number;
-  color: string;
-};
-
-type DocNode = {
-  x: number;
-  y: number;
-};
-
 export function ProjectScene({ variant }: { variant: SceneVariant }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const root = ref.current;
-    if (!root) {
-      return;
-    }
-
-    root.innerHTML = "";
-
-    const width = 360;
-    const height = 180;
-
-    const svg = d3
-      .select(root)
-      .append("svg")
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("class", "project-scene-svg");
-
-    if (variant === "routeeye") {
-      renderRouteEye(svg, width, height);
-    }
-
-    if (variant === "kalrav") {
-      renderKalrav(svg, width, height);
-    }
-
-    if (variant === "ecai") {
-      renderEcai(svg, width, height);
-    }
-  }, [variant]);
-
-  return <div className={`project-scene project-scene-${variant}`} ref={ref} />;
+  return (
+    <div className={`project-scene project-scene-${variant}`}>
+      <svg viewBox="0 0 360 180" className="project-scene-svg" aria-hidden="true">
+        {variant === "routeeye" ? <RouteEyeScene /> : null}
+        {variant === "kalrav" ? <KalravScene /> : null}
+        {variant === "ecai" ? <EcaiScene /> : null}
+      </svg>
+    </div>
+  );
 }
 
-function renderRouteEye(svg: any, width: number, height: number) {
-  const pathData =
-    "M136,138 C176,116 214,110 246,90 C276,72 304,54 330,40";
+function RouteEyeScene() {
+  return (
+    <>
+      <rect
+        x="18"
+        y="24"
+        width="324"
+        height="132"
+        rx="22"
+        fill="rgba(255,255,255,0.5)"
+      />
 
-  svg
-    .append("rect")
-    .attr("x", 18)
-    .attr("y", 24)
-    .attr("width", width - 36)
-    .attr("height", height - 48)
-    .attr("rx", 22)
-    .attr("fill", "rgba(255,255,255,0.5)");
+      <g transform="translate(74 122)">
+        <circle r="15" cy="-26" fill="#d56d44" />
+        <path
+          d="M-12 12 C-8 -12 8 -12 12 12 L9 34 L-9 34 Z"
+          fill="#1b2631"
+        />
+        <rect
+          x="18"
+          y="-6"
+          width="22"
+          height="34"
+          rx="6"
+          fill="#3558b2"
+          transform="rotate(-12 29 11)"
+        />
+        <circle cx="29" cy="2" r="2.5" fill="#f0f4f8" opacity="0.9" />
+      </g>
 
-  const user = svg.append("g").attr("transform", "translate(74,122)");
-  user.append("circle").attr("r", 15).attr("cy", -26).attr("fill", "#d56d44");
-  user
-    .append("path")
-    .attr("d", "M-12 12 C-8 -12 8 -12 12 12 L9 34 L-9 34 Z")
-    .attr("fill", "#1b2631");
+      <path
+        d="M136,138 C176,116 214,110 246,90 C276,72 304,54 330,40"
+        fill="none"
+        stroke="rgba(42, 118, 215, 0.12)"
+        strokeWidth="18"
+        strokeLinecap="round"
+      />
+      <path
+        d="M136,138 C176,116 214,110 246,90 C276,72 304,54 330,40"
+        fill="none"
+        stroke="#3568d4"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeDasharray="28 14"
+      />
 
-  user
-    .append("rect")
-    .attr("x", 18)
-    .attr("y", -6)
-    .attr("width", 22)
-    .attr("height", 34)
-    .attr("rx", 6)
-    .attr("fill", "#3558b2")
-    .attr("transform", "rotate(-12 29 11)");
+      <circle cx="136" cy="138" r="5.5" fill="#3558b2" stroke="#ffffff" strokeWidth="2" />
+      <circle cx="246" cy="90" r="5.5" fill="#3558b2" stroke="#ffffff" strokeWidth="2" />
+      <circle cx="330" cy="40" r="5.5" fill="#5f9f5b" stroke="#ffffff" strokeWidth="2" />
 
-  user
-    .append("circle")
-    .attr("cx", 29)
-    .attr("cy", 2)
-    .attr("r", 2.5)
-    .attr("fill", "#f0f4f8")
-    .attr("opacity", 0.9);
+      <g transform="translate(302 58)">
+        <rect x="-11" y="-7" width="22" height="14" rx="5" fill="#18202d" />
+        <rect x="-5" y="-10" width="10" height="6" rx="2" fill="#3558b2" />
+        <circle cx="-7" cy="8" r="2.6" fill="#d56d44" />
+        <circle cx="7" cy="8" r="2.6" fill="#d56d44" />
+      </g>
 
-  svg
-    .append("path")
-    .attr("d", pathData)
-    .attr("fill", "none")
-    .attr("stroke", "rgba(42, 118, 215, 0.12)")
-    .attr("stroke-width", 18)
-    .attr("stroke-linecap", "round");
-
-  const route = svg
-    .append("path")
-    .attr("d", pathData)
-    .attr("fill", "none")
-    .attr("stroke", "#3568d4")
-    .attr("stroke-width", 4)
-    .attr("stroke-linecap", "round")
-    .attr("stroke-dasharray", "0 14");
-
-  svg
-    .selectAll(".route-node")
-    .data([
-      { x: 136, y: 138, color: "#3558b2" },
-      { x: 246, y: 90, color: "#3558b2" },
-      { x: 330, y: 40, color: "#5f9f5b" },
-    ])
-    .enter()
-    .append("circle")
-    .attr("cx", (d: RouteNode) => d.x)
-    .attr("cy", (d: RouteNode) => d.y)
-    .attr("r", 5.5)
-    .attr("fill", (d: RouteNode) => d.color)
-    .attr("stroke", "#ffffff")
-    .attr("stroke-width", 2);
-
-  const vehicle = svg
-    .append("g")
-    .attr("class", "scene-vehicle")
-    .attr("transform", "translate(136,138)");
-
-  vehicle
-    .append("rect")
-    .attr("x", -11)
-    .attr("y", -7)
-    .attr("width", 22)
-    .attr("height", 14)
-    .attr("rx", 5)
-    .attr("fill", "#18202d");
-
-  vehicle
-    .append("rect")
-    .attr("x", -5)
-    .attr("y", -10)
-    .attr("width", 10)
-    .attr("height", 6)
-    .attr("rx", 2)
-    .attr("fill", "#3558b2");
-
-  vehicle
-    .selectAll("circle")
-    .data([-7, 7])
-    .enter()
-    .append("circle")
-    .attr("cx", (d: number) => d)
-    .attr("cy", 8)
-    .attr("r", 2.6)
-    .attr("fill", "#d56d44");
-
-  const totalLength = (route.node() as SVGPathElement).getTotalLength();
-
-  function animate() {
-    vehicle
-      .transition()
-      .duration(5200)
-        .ease(d3.easeLinear)
-        .attrTween("transform", () => {
-        return (t: number) => {
-          const point = (route.node() as SVGPathElement).getPointAtLength(t * totalLength);
-          return `translate(${point.x},${point.y})`;
-        };
-      })
-      .on("end", animate);
-
-    route
-      .transition()
-      .duration(5200)
-      .ease(d3.easeLinear)
-      .attrTween("stroke-dasharray", () => {
-        return (t: number) => `${Math.max(12, t * totalLength * 0.34)} 14`;
-      });
-  }
-
-  animate();
-
-  svg
-    .append("text")
-    .attr("x", width - 18)
-    .attr("y", height - 16)
-    .attr("text-anchor", "end")
-    .attr("class", "scene-label")
-    .text("Driver checks route in real time");
+      <text
+        x="342"
+        y="164"
+        textAnchor="end"
+        className="scene-label"
+      >
+        Driver checks route in real time
+      </text>
+    </>
+  );
 }
 
-function renderKalrav(svg: any, width: number, height: number) {
-  const uploader = svg.append("g").attr("transform", "translate(54,92)");
-  uploader.append("circle").attr("r", 16).attr("cy", -22).attr("fill", "#d56d44");
-  uploader
-    .append("path")
-    .attr("d", "M-12 10 C-8 -10 8 -10 12 10 L10 32 L-10 32 Z")
-    .attr("fill", "#3558b2");
+function KalravScene() {
+  return (
+    <>
+      <g transform="translate(54 92)">
+        <circle r="16" cy="-22" fill="#d56d44" />
+        <path
+          d="M-12 10 C-8 -10 8 -10 12 10 L10 32 L-10 32 Z"
+          fill="#3558b2"
+        />
+      </g>
 
-  const uploadBox = svg.append("g").attr("transform", "translate(144,38)");
-  uploadBox
-    .append("rect")
-    .attr("width", 86)
-    .attr("height", 92)
-    .attr("rx", 16)
-    .attr("fill", "#ffffff")
-    .attr("stroke", "rgba(53, 88, 178, 0.14)");
-  uploadBox
-    .append("path")
-    .attr("d", "M43 66 V28 M43 28 L30 42 M43 28 L56 42")
-    .attr("fill", "none")
-    .attr("stroke", "#3558b2")
-    .attr("stroke-width", 4)
-    .attr("stroke-linecap", "round")
-    .attr("stroke-linejoin", "round");
-  uploadBox
-    .append("rect")
-    .attr("x", 24)
-    .attr("y", 70)
-    .attr("width", 38)
-    .attr("height", 6)
-    .attr("rx", 3)
-    .attr("fill", "rgba(53, 88, 178, 0.12)");
+      <g transform="translate(144 38)">
+        <rect
+          width="86"
+          height="92"
+          rx="16"
+          fill="#ffffff"
+          stroke="rgba(53, 88, 178, 0.14)"
+        />
+        <path
+          d="M43 66 V28 M43 28 L30 42 M43 28 L56 42"
+          fill="none"
+          stroke="#3558b2"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <rect
+          x="24"
+          y="70"
+          width="38"
+          height="6"
+          rx="3"
+          fill="rgba(53, 88, 178, 0.12)"
+        />
+      </g>
 
-  const users: ConsumerUser[] = [
-    { x: 282, y: 54, color: "#3558b2" },
-    { x: 314, y: 92, color: "#5f9f5b" },
-    { x: 280, y: 126, color: "#d56d44" },
-  ];
+      <path
+        d="M70,96 C96,96 118,88 144,84"
+        className="scene-dashed-path"
+      />
+      <path
+        d="M230,84 C250,70 260,60 272,54"
+        className="scene-dashed-path"
+      />
+      <path
+        d="M230,86 C252,92 276,94 304,92"
+        className="scene-dashed-path"
+      />
+      <path
+        d="M230,88 C250,106 258,118 270,124"
+        className="scene-dashed-path"
+      />
 
-  const consumers = svg.append("g");
-  users.forEach((user) => {
-    const g = consumers.append("g").attr("transform", `translate(${user.x},${user.y})`);
-    g.append("circle").attr("r", 10).attr("cy", -12).attr("fill", user.color);
-    g.append("rect").attr("x", -9).attr("y", 0).attr("width", 18).attr("height", 20).attr("rx", 7).attr("fill", user.color);
-  });
+      <circle cx="114" cy="90" r="4.2" fill="#3558b2" />
+      <circle cx="132" cy="86" r="4.2" fill="#3558b2" opacity="0.8" />
+      <circle cx="250" cy="70" r="3.8" fill="#5f9f5b" />
+      <circle cx="276" cy="92" r="3.8" fill="#5f9f5b" opacity="0.8" />
+      <circle cx="250" cy="106" r="3.8" fill="#5f9f5b" opacity="0.7" />
 
-  const pulseGroup = svg.append("g");
+      <g transform="translate(282 54)">
+        <circle r="10" cy="-12" fill="#3558b2" />
+        <rect x="-9" y="0" width="18" height="20" rx="7" fill="#3558b2" />
+      </g>
+      <g transform="translate(314 92)">
+        <circle r="10" cy="-12" fill="#5f9f5b" />
+        <rect x="-9" y="0" width="18" height="20" rx="7" fill="#5f9f5b" />
+      </g>
+      <g transform="translate(280 126)">
+        <circle r="10" cy="-12" fill="#d56d44" />
+        <rect x="-9" y="0" width="18" height="20" rx="7" fill="#d56d44" />
+      </g>
 
-  const forwardDots = pulseGroup
-    .selectAll(".forward")
-    .data(d3.range(4))
-    .enter()
-    .append("circle")
-    .attr("r", 4.2)
-    .attr("fill", "#3558b2");
-
-  const responseDots = pulseGroup
-    .selectAll(".response")
-    .data(d3.range(6))
-    .enter()
-    .append("circle")
-    .attr("r", 3.8)
-    .attr("fill", "#5f9f5b");
-
-  const uploadFlow = d3.path();
-  uploadFlow.moveTo(70, 96);
-  uploadFlow.bezierCurveTo(96, 96, 118, 88, 144, 84);
-
-  const toUserA = d3.path();
-  toUserA.moveTo(230, 84);
-  toUserA.bezierCurveTo(250, 70, 260, 60, 272, 54);
-
-  const toUserB = d3.path();
-  toUserB.moveTo(230, 86);
-  toUserB.bezierCurveTo(252, 92, 276, 94, 304, 92);
-
-  const toUserC = d3.path();
-  toUserC.moveTo(230, 88);
-  toUserC.bezierCurveTo(250, 106, 258, 118, 270, 124);
-
-  svg
-    .append("path")
-    .attr("d", uploadFlow.toString())
-    .attr("class", "scene-dashed-path");
-
-  [toUserA, toUserB, toUserC].forEach((path) => {
-    svg.append("path").attr("d", path.toString()).attr("class", "scene-dashed-path");
-  });
-
-  const uploadPath = svg.append("path").attr("d", uploadFlow.toString()).attr("fill", "none").attr("stroke", "transparent");
-  const fanOutA = svg.append("path").attr("d", toUserA.toString()).attr("fill", "none").attr("stroke", "transparent");
-  const fanOutB = svg.append("path").attr("d", toUserB.toString()).attr("fill", "none").attr("stroke", "transparent");
-  const fanOutC = svg.append("path").attr("d", toUserC.toString()).attr("fill", "none").attr("stroke", "transparent");
-
-  const uploadLength = (uploadPath.node() as SVGPathElement).getTotalLength();
-  const aLen = (fanOutA.node() as SVGPathElement).getTotalLength();
-  const bLen = (fanOutB.node() as SVGPathElement).getTotalLength();
-  const cLen = (fanOutC.node() as SVGPathElement).getTotalLength();
-
-  d3.timer((elapsed: number) => {
-    forwardDots.attr("opacity", (_d: number, i: number) => ((elapsed / 500 + i) % 4) / 4 + 0.25);
-    responseDots.attr("opacity", (_d: number, i: number) => ((elapsed / 620 + i) % 6) / 6 + 0.25);
-
-    forwardDots.attr("cx", (_d: number, i: number) => {
-      const point = (uploadPath.node() as SVGPathElement).getPointAtLength((elapsed / 10 + i * 20) % uploadLength);
-      return point.x;
-    });
-    forwardDots.attr("cy", (_d: number, i: number) => {
-      const point = (uploadPath.node() as SVGPathElement).getPointAtLength((elapsed / 10 + i * 20) % uploadLength);
-      return point.y;
-    });
-
-    responseDots.attr("cx", (_d: number, i: number) => {
-      const targets = [
-        [fanOutA.node() as SVGPathElement, aLen],
-        [fanOutB.node() as SVGPathElement, bLen],
-        [fanOutC.node() as SVGPathElement, cLen],
-      ] as const;
-      const [path, len] = targets[i % 3];
-      const point = path.getPointAtLength((elapsed / 8 + i * 18) % len);
-      return point.x;
-    });
-    responseDots.attr("cy", (_d: number, i: number) => {
-      const targets = [
-        [fanOutA.node() as SVGPathElement, aLen],
-        [fanOutB.node() as SVGPathElement, bLen],
-        [fanOutC.node() as SVGPathElement, cLen],
-      ] as const;
-      const [path, len] = targets[i % 3];
-      const point = path.getPointAtLength((elapsed / 8 + i * 18) % len);
-      return point.y;
-    });
-  });
-
-  svg
-    .append("text")
-    .attr("x", width - 18)
-    .attr("y", height - 16)
-    .attr("text-anchor", "end")
-    .attr("class", "scene-label")
-    .text("Upload once, shared everywhere");
+      <text
+        x="342"
+        y="164"
+        textAnchor="end"
+        className="scene-label"
+      >
+        Upload once, shared everywhere
+      </text>
+    </>
+  );
 }
 
-function renderEcai(svg: any, width: number, height: number) {
-  const frame = svg.append("g").attr("transform", "translate(32,22)");
+function EcaiScene() {
+  return (
+    <>
+      <g transform="translate(32 22)">
+        <rect
+          width="296"
+          height="132"
+          rx="18"
+          fill="#ffffff"
+          stroke="rgba(53, 88, 178, 0.12)"
+        />
+        <rect
+          x="16"
+          y="18"
+          width="88"
+          height="96"
+          rx="16"
+          fill="rgba(53, 88, 178, 0.08)"
+        />
 
-  frame
-    .append("rect")
-    .attr("width", 296)
-    .attr("height", 132)
-    .attr("rx", 18)
-    .attr("fill", "#ffffff")
-    .attr("stroke", "rgba(53, 88, 178, 0.12)");
+        <g transform="translate(60 67)">
+          <rect
+            x="-18"
+            y="-2"
+            width="36"
+            height="28"
+            rx="8"
+            fill="#3558b2"
+          />
+          <path
+            d="M-10 -2 V-14 C-10 -25 10 -25 10 -14 V-2"
+            fill="none"
+            stroke="#3558b2"
+            strokeWidth="7"
+            strokeLinecap="round"
+          />
+        </g>
 
-  frame
-    .append("rect")
-    .attr("x", 16)
-    .attr("y", 18)
-    .attr("width", 88)
-    .attr("height", 96)
-    .attr("rx", 16)
-    .attr("fill", "rgba(53, 88, 178, 0.08)");
+        <text x="126" y="36" className="scene-panel-title">
+          Internal RAG workspace
+        </text>
 
-  const lock = frame.append("g").attr("transform", "translate(60,67)");
-  lock.append("rect").attr("x", -18).attr("y", -2).attr("width", 36).attr("height", 28).attr("rx", 8).attr("fill", "#3558b2");
-  lock.append("path").attr("d", "M-10 -2 V-14 C-10 -25 10 -25 10 -14 V-2").attr("fill", "none").attr("stroke", "#3558b2").attr("stroke-width", 7).attr("stroke-linecap", "round");
+        <line
+          x1="148"
+          y1="78"
+          x2="190"
+          y2="60"
+          stroke="rgba(53, 88, 178, 0.22)"
+          strokeWidth="2"
+        />
+        <line
+          x1="190"
+          y1="60"
+          x2="234"
+          y2="86"
+          stroke="rgba(53, 88, 178, 0.22)"
+          strokeWidth="2"
+        />
+        <line
+          x1="234"
+          y1="86"
+          x2="274"
+          y2="68"
+          stroke="rgba(53, 88, 178, 0.22)"
+          strokeWidth="2"
+        />
 
-  frame
-    .append("text")
-    .attr("x", 126)
-    .attr("y", 36)
-    .attr("class", "scene-panel-title")
-    .text("Internal RAG workspace");
+        <rect x="138" y="66" width="20" height="24" rx="5" fill="#3558b2" />
+        <rect x="180" y="48" width="20" height="24" rx="5" fill="#3558b2" />
+        <rect x="224" y="74" width="20" height="24" rx="5" fill="#3558b2" />
+        <rect x="264" y="56" width="20" height="24" rx="5" fill="#3558b2" />
 
-  const docs: DocNode[] = [
-    { x: 148, y: 78 },
-    { x: 190, y: 60 },
-    { x: 234, y: 86 },
-    { x: 274, y: 68 },
-  ];
+        <circle cx="234" cy="86" r="5.5" fill="#d56d44" />
 
-  frame
-    .selectAll(".secure-link")
-    .data([
-      [148, 78, 190, 60],
-      [190, 60, 234, 86],
-      [234, 86, 274, 68],
-    ])
-    .enter()
-    .append("line")
-    .attr("x1", (d: number[]) => d[0])
-    .attr("y1", (d: number[]) => d[1])
-    .attr("x2", (d: number[]) => d[2])
-    .attr("y2", (d: number[]) => d[3])
-    .attr("stroke", "rgba(53, 88, 178, 0.22)")
-    .attr("stroke-width", 2);
+        <rect
+          x="122"
+          y="96"
+          width="152"
+          height="18"
+          rx="8"
+          fill="rgba(53, 88, 178, 0.08)"
+        />
+      </g>
 
-  const secureNodes = frame
-    .selectAll(".secure-node")
-    .data(docs)
-    .enter()
-    .append("rect")
-    .attr("cx", (d: DocNode) => d.x)
-    .attr("cy", (d: DocNode) => d.y)
-    .attr("x", (d: DocNode) => d.x - 10)
-    .attr("y", (d: DocNode) => d.y - 12)
-    .attr("width", 20)
-    .attr("height", 24)
-    .attr("rx", 5)
-    .attr("fill", "#3558b2");
-
-  const token = frame
-    .append("circle")
-    .attr("r", 5.5)
-    .attr("fill", "#d56d44")
-    .attr("cx", 148)
-    .attr("cy", 78);
-
-  frame
-    .append("rect")
-    .attr("x", 122)
-    .attr("y", 96)
-    .attr("width", 152)
-    .attr("height", 18)
-    .attr("rx", 8)
-    .attr("fill", "rgba(53, 88, 178, 0.08)");
-
-  function moveToken() {
-    token
-      .transition()
-      .duration(650)
-      .attr("cx", 188)
-      .attr("cy", 60)
-      .transition()
-      .duration(650)
-      .attr("cx", 234)
-      .attr("cy", 86)
-      .transition()
-      .duration(650)
-      .attr("cx", 274)
-      .attr("cy", 68)
-      .transition()
-      .duration(650)
-      .attr("cx", 148)
-      .attr("cy", 78)
-      .on("end", moveToken);
-  }
-
-  moveToken();
-
-  d3.timer((elapsed: number) => {
-    secureNodes.attr("opacity", (_d: DocNode, i: number) => 0.6 + 0.35 * Math.sin(elapsed / 420 + i));
-    lock.attr("transform", `translate(60,67) scale(${1 + Math.sin(elapsed / 600) * 0.035})`);
-  });
-
-  svg
-    .append("text")
-    .attr("x", width - 18)
-    .attr("y", height - 16)
-    .attr("text-anchor", "end")
-    .attr("class", "scene-label")
-    .text("Private docs, internal answers");
+      <text
+        x="342"
+        y="164"
+        textAnchor="end"
+        className="scene-label"
+      >
+        Private docs, internal answers
+      </text>
+    </>
+  );
 }
