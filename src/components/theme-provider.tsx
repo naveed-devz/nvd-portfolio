@@ -5,7 +5,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 export const THEMES = [
   { value: "default-glass", label: "Default Glass" },
   { value: "aurora-neon", label: "Aurora Neon" },
-  { value: "midnight-grid", label: "Midnight Grid" },
+  { value: "midnight-grid", label: "Midnight Grid" },                                                                                                               
   { value: "minimal-paper", label: "Minimal Paper" },
   { value: "studio-dark", label: "Studio Dark" },
 ] as const;
@@ -15,10 +15,10 @@ type ThemeValue = (typeof THEMES)[number]["value"];
 type ThemeContextValue = {
   theme: ThemeValue;
   setTheme: (theme: ThemeValue) => void;
-};
+};                                                                                                                                                                                                                                                                                                                         
 
-const STORAGE_KEY = "portfolio-theme";
-const DEFAULT_THEME: ThemeValue = "default-glass";
+const STORAGE_KEY = "portfolio-theme";                                                              
+const DEFAULT_THEME: ThemeValue = "midnight-grid";
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 

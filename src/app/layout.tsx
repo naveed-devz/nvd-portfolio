@@ -55,7 +55,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="default-glass">
+    <html lang="en" data-theme="midnight-grid">
       <body>
         <ThemeProvider>
           <Analytics />

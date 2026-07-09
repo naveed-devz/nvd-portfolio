@@ -3,7 +3,6 @@ import { ContactForm } from "@/components/contact-form";
 import { HeroNetwork } from "@/components/hero-network";
 import { FadeUp, ParallaxHero } from "@/components/motion";
 import { ProjectScene, type SceneVariant } from "@/components/project-scene";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 
 const stats = [
   { value: "4+ Years", label: "building full-stack software" },
@@ -225,7 +224,6 @@ export default function Home() {
                   <a href="#skills">Skills</a>
                   <a href="#contact">Contact</a>
                 </nav>
-                <ThemeSwitcher />
               </div>
             </header>
           </FadeUp>
