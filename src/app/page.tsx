@@ -566,7 +566,7 @@ export default function Home() {
         </div>
 
         <FadeUp className="current-focus-card" delay={0.16}>
-          <p className="eyebrow">Currently Interested In</p>
+          <p className="eyebrow current-focus-label">Currently Interested In</p>
           <div className="chip-row">
             {currentFocus.map((item) => (
               <span className="chip" key={item}>
