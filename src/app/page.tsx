@@ -1,9 +1,11 @@
 import Image from "next/image";
 import type { IconType } from "react-icons";
-import { LuBotMessageSquare, LuDatabaseZap } from "react-icons/lu";
+import { LuBotMessageSquare } from "react-icons/lu";
 import { PiNetwork } from "react-icons/pi";
 import {
-  SiNextdotjs,
+  SiExpress,
+  SiMongodb,
+  SiMysql,
   SiNodedotjs,
   SiReact,
 } from "react-icons/si";
@@ -167,6 +169,36 @@ const skillSpotlight: Array<{
   description: string;
 }> = [
   {
+    name: "React.js",
+    tone: "sky",
+    icon: SiReact,
+    description: "Production-ready interfaces for product and platform delivery.",
+  },
+  {
+    name: "Node.js",
+    tone: "green",
+    icon: SiNodedotjs,
+    description: "Backend services, APIs, and event-driven application logic.",
+  },
+  {
+    name: "MongoDB",
+    tone: "green",
+    icon: SiMongodb,
+    description: "Flexible document storage for product workflows and services.",
+  },
+  {
+    name: "Express.js",
+    tone: "neutral",
+    icon: SiExpress,
+    description: "Lean server architecture for full-stack product delivery.",
+  },
+  {
+    name: "MySQL",
+    tone: "blue",
+    icon: SiMysql,
+    description: "Relational data modeling for reliable product backends.",
+  },
+  {
     name: "GenAI",
     tone: "emerald",
     icon: LuBotMessageSquare,
@@ -183,30 +215,6 @@ const skillSpotlight: Array<{
     tone: "green",
     icon: PiNetwork,
     description: "Vector database workflows for semantic retrieval and memory.",
-  },
-  {
-    name: "Vector Embeddings",
-    tone: "blue",
-    icon: LuDatabaseZap,
-    description: "Embedding-driven search, ranking, and retrieval systems.",
-  },
-  {
-    name: "Node.js",
-    tone: "green",
-    icon: SiNodedotjs,
-    description: "Backend services and event-driven product logic.",
-  },
-  {
-    name: "Next.js",
-    tone: "neutral",
-    icon: SiNextdotjs,
-    description: "App-router based full-stack web application delivery.",
-  },
-  {
-    name: "React.js",
-    tone: "sky",
-    icon: SiReact,
-    description: "Fast frontend delivery for production product interfaces.",
   },
 ];
 
@@ -520,17 +528,17 @@ export default function Home() {
                 </div>
               </div>
             </ParallaxHero>
-          </div>
 
-          <div className="stats-grid">
-            {stats.map((stat, index) => (
-              <FadeUp key={stat.label} delay={0.12 + index * 0.07}>
-                <article className="stat-card">
-                  <strong>{stat.value}</strong>
-                  <span>{stat.label}</span>
-                </article>
-              </FadeUp>
-            ))}
+            <div className="stats-grid hero-stats-grid">
+              {stats.map((stat, index) => (
+                <FadeUp key={stat.label} delay={0.12 + index * 0.07}>
+                  <article className="stat-card">
+                    <strong>{stat.value}</strong>
+                    <span>{stat.label}</span>
+                  </article>
+                </FadeUp>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -711,9 +719,9 @@ export default function Home() {
           <p className="eyebrow">Technical Focus</p>
           <h2>Core stack, AI expertise, and the technical areas I use most in product delivery.</h2>
           <p>
-            The spotlight below shows the tools and engineering areas I rely on
-            most often, followed by the broader stack I use across product and
-            service work.
+            The spotlight starts with my main web stack across React, Node.js,
+            MongoDB, Express.js, and MySQL, then moves into the GenAI and
+            retrieval workflows I use in product work.
           </p>
         </FadeUp>
 
