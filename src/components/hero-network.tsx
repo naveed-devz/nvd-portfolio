@@ -33,25 +33,15 @@ type DropletParticle = {
   speed: number;
 };
 
-type SideBubble = {
-  id: string;
-  side: "left" | "right";
-  x: number;
-  y: number;
-  radius: number;
-  speed: number;
-  drift: number;
-};
-
 const coreNodes: StarNode[] = [
-  { id: "n1", x: 96, y: 180, radius: 5.2, depth: 0.55, color: "#5f7f90" },
-  { id: "n2", x: 132, y: 102, radius: 6.2, depth: 0.7, color: "#3558b2" },
-  { id: "n3", x: 188, y: 144, radius: 7.8, depth: 1, color: "#3558b2" },
-  { id: "n4", x: 236, y: 92, radius: 5.6, depth: 0.66, color: "#7aa6b8" },
-  { id: "n5", x: 286, y: 154, radius: 6.8, depth: 0.82, color: "#d5aa8d" },
-  { id: "n6", x: 324, y: 122, radius: 5, depth: 0.52, color: "#5f7f90" },
-  { id: "n7", x: 258, y: 218, radius: 5.8, depth: 0.62, color: "#3558b2" },
-  { id: "n8", x: 150, y: 236, radius: 4.8, depth: 0.45, color: "#7aa6b8" },
+  { id: "n1", x: 96, y: 180, radius: 5.2, depth: 0.55, color: "#4ade80" },
+  { id: "n2", x: 132, y: 102, radius: 6.2, depth: 0.7, color: "#5eead4" },
+  { id: "n3", x: 188, y: 144, radius: 7.8, depth: 1, color: "#7dd3fc" },
+  { id: "n4", x: 236, y: 92, radius: 5.6, depth: 0.66, color: "#93c5fd" },
+  { id: "n5", x: 286, y: 154, radius: 6.8, depth: 0.82, color: "#86efac" },
+  { id: "n6", x: 324, y: 122, radius: 5, depth: 0.52, color: "#4ade80" },
+  { id: "n7", x: 258, y: 218, radius: 5.8, depth: 0.62, color: "#5eead4" },
+  { id: "n8", x: 150, y: 236, radius: 4.8, depth: 0.45, color: "#7dd3fc" },
 ];
 
 const links: StarLink[] = [
@@ -80,16 +70,6 @@ const droplets: DropletParticle[] = d3.range(10).map((index: number) => ({
   y: -18 - index * 22,
   radius: 2.2 + (index % 3) * 0.85,
   speed: 0.75 + (index % 4) * 0.18,
-}));
-
-const sideBubbles: SideBubble[] = d3.range(18).map((index: number) => ({
-  id: `side-${index}`,
-  side: index % 2 === 0 ? "left" : "right",
-  x: index % 2 === 0 ? 72 + (index % 3) * 26 : 1368 - (index % 3) * 28,
-  y: 40 + ((index * 91) % 880),
-  radius: 3.4 + (index % 4) * 1.1,
-  speed: 0.42 + (index % 5) * 0.06,
-  drift: 0.3 + (index % 4) * 0.08,
 }));
 
 export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) {
@@ -145,13 +125,12 @@ export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) 
       .append("radialGradient")
       .attr("id", "heroHalo");
 
-    halo.append("stop").attr("offset", "0%").attr("stop-color", "#A5C8D6").attr("stop-opacity", mode === "ambient" ? 0.14 : 0.24);
-    halo.append("stop").attr("offset", "55%").attr("stop-color", "#A5C8D6").attr("stop-opacity", mode === "ambient" ? 0.05 : 0.08);
-    halo.append("stop").attr("offset", "100%").attr("stop-color", "#A5C8D6").attr("stop-opacity", 0);
+    halo.append("stop").attr("offset", "0%").attr("stop-color", "#7dd3fc").attr("stop-opacity", mode === "ambient" ? 0.16 : 0.26);
+    halo.append("stop").attr("offset", "55%").attr("stop-color", "#5eead4").attr("stop-opacity", mode === "ambient" ? 0.06 : 0.1);
+    halo.append("stop").attr("offset", "100%").attr("stop-color", "#22c55e").attr("stop-opacity", 0);
 
     const dustGroup = svg.append("g");
     const dropletGroup = svg.append("g");
-    const sideBubbleGroup = svg.append("g");
     const linkGroup = svg.append("g");
     const glowGroup = svg.append("g").attr("filter", "url(#portfolioGlow)");
     const nodeGroup = svg.append("g");
@@ -162,7 +141,7 @@ export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) 
       .enter()
       .append("circle")
       .attr("class", "network-dust")
-      .attr("fill", mode === "ambient" ? "rgba(91,102,119,0.18)" : "rgba(91,102,119,0.34)")
+      .attr("fill", mode === "ambient" ? "rgba(125, 211, 252, 0.14)" : "rgba(125, 211, 252, 0.24)")
       .attr("r", (d: DustParticle) => d.radius);
 
     const dropletSelection = dropletGroup
@@ -171,19 +150,8 @@ export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) 
       .enter()
       .append("circle")
       .attr("class", "network-droplet")
-      .attr("fill", mode === "ambient" ? "rgba(53, 88, 178, 0.16)" : "rgba(53, 88, 178, 0.34)")
+      .attr("fill", mode === "ambient" ? "rgba(110, 231, 183, 0.1)" : "rgba(110, 231, 183, 0.18)")
       .attr("r", (d: DropletParticle) => d.radius);
-
-    const sideBubbleSelection = sideBubbleGroup
-      .selectAll("circle")
-      .data(mode === "ambient" ? sideBubbles : [])
-      .enter()
-      .append("circle")
-      .attr("class", "network-side-bubble")
-      .attr("fill", "rgba(255, 255, 255, 0.1)")
-      .attr("stroke", "rgba(165, 200, 214, 0.42)")
-      .attr("stroke-width", 1.25)
-      .attr("r", (d: SideBubble) => d.radius);
 
     const linkSelection = linkGroup
       .selectAll("line")
@@ -235,21 +203,20 @@ export function HeroNetwork({ mode = "panel" }: { mode?: "panel" | "ambient" }) 
         .attr("opacity", (_d: DustParticle, i: number) => (mode === "ambient" ? 0.08 : 0.18) + (Math.sin(tick + i) + 1) * (mode === "ambient" ? 0.05 : 0.12));
 
       dropletSelection
-        .attr("cx", (d: DropletParticle, i: number) => d.x + Math.sin(tick * 0.9 + i) * 10)
-        .attr("cy", (d: DropletParticle, i: number) => ((d.y + elapsed * 0.04 * d.speed + i * 6) % (height + 40)) - 20)
-        .attr("opacity", (_d: DropletParticle, i: number) => (mode === "ambient" ? 0.05 : 0.18) + (Math.sin(tick * 1.4 + i) + 1) * (mode === "ambient" ? 0.08 : 0.18));
-
-      sideBubbleSelection
-        .attr("cx", (d: SideBubble, i: number) => {
-          const direction = d.side === "left" ? 1 : -1;
-          return d.x + Math.sin(tick * d.drift + i * 0.7) * 18 * direction;
+        .attr("cx", (d: DropletParticle, i: number) => {
+          const travel = mode === "ambient" ? 8 : 10;
+          return d.x + Math.sin(tick * 0.72 + i * 0.9) * travel;
         })
-        .attr("cy", (d: SideBubble, i: number) => {
-          const scrollLift = scrollProgress * (26 + (i % 5) * 8);
-          return ((d.y - elapsed * d.speed + Math.sin(tick + i) * 8 - scrollLift) % (height + 140)) + 40;
+        .attr("cy", (d: DropletParticle, i: number) => {
+          const baseY = mode === "ambient" ? d.y + height * 0.42 : d.y + height * 0.46;
+          const driftY = Math.cos(tick * 0.55 + i * 0.8) * (mode === "ambient" ? 26 : 18);
+          const scrollLift = mode === "ambient" ? scrollProgress * (10 + i * 1.5) : 0;
+          return baseY + driftY - scrollLift;
         })
-        .attr("opacity", (_d: SideBubble, i: number) => {
-          return 0.16 + (Math.sin(tick * 1.2 + i) + 1) * 0.12 + Math.min(scrollProgress * 0.18, 0.18);
+        .attr("opacity", (_d: DropletParticle, i: number) => {
+          const baseOpacity = mode === "ambient" ? 0.04 : 0.1;
+          const pulse = (Math.sin(tick * 1.12 + i * 0.6) + 1) * (mode === "ambient" ? 0.045 : 0.08);
+          return baseOpacity + pulse;
         });
 
       linkSelection

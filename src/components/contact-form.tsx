@@ -76,15 +76,15 @@ export function ContactForm() {
 
         <label className="contact-field">
           <span>Company</span>
-          <input name="company" type="text" placeholder="Company or brand" />
+          <input name="company" type="text" placeholder="Company or team" />
         </label>
 
         <label className="contact-field">
-          <span>Project type</span>
+          <span>Topic</span>
           <input
             name="projectType"
             type="text"
-            placeholder="Full-time role, freelance, SaaS, tracking app..."
+            placeholder="What are you reaching out about?"
           />
         </label>
       </div>
@@ -94,23 +94,15 @@ export function ContactForm() {
         <textarea
           name="message"
           rows={5}
-          placeholder="Tell me what you're building or the kind of role you're hiring for."
+          placeholder="Share a few details and I will get back to you."
           required
         />
       </label>
 
       <div className="contact-form-actions">
         <button className="button-primary" type="submit" disabled={status === "loading"}>
-          {status === "loading" ? "Sending..." : "Send inquiry"}
+          {status === "loading" ? "Sending..." : "Send query"}
         </button>
-        <a
-          className="button-secondary"
-          href="https://www.linkedin.com/in/sh-naveed/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          LinkedIn
-        </a>
       </div>
 
       {message ? (
