@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 const navItems = [
-  { href: "#projects", label: "Projects" },
-  { href: "#experience", label: "Experience" },
-  { href: "#skills", label: "Skills" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#projects", label: "Projects" },
+  { href: "/about", label: "About" },
+  { href: "/about#experience", label: "Experience" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export function SiteHeader() {
@@ -15,14 +16,12 @@ export function SiteHeader() {
   return (
     <header className={`topbar${menuOpen ? " topbar-menu-open" : ""}`}>
       <div className="topbar-row">
-        <a
+        <Link
           className="brand-mark"
-          href="#page-top"
+          href="/"
           aria-label="Go to top of page"
           onClick={() => setMenuOpen(false)}
-        >
-          SN
-        </a>
+        >SN</Link>
 
         <button
           type="button"
@@ -45,9 +44,9 @@ export function SiteHeader() {
           aria-label="Primary navigation"
         >
           {navItems.map((item) => (
-            <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
+            <Link key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
       </div>

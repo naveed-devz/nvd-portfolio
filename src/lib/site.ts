@@ -3,6 +3,8 @@ export const siteName = "Naveed Shaik Portfolio";
 export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://naveedshaik.com";
 
 export const targetRoles = [
+  "AI Engineer",
+  "Software Engineer",
   "Frontend Engineer",
   "Backend Engineer",
   "Full-stack Engineer",
@@ -19,7 +21,7 @@ export const preferredLocations = [
 ];
 
 export const siteDescription =
-  "Naveed Shaik is a full-stack engineer building backend-heavy web products, AI workflows, and integration-rich systems. Open to frontend, backend, full-stack, product engineer, delivery engineer, and founding-team roles across Bengaluru, Bangalore, Mysuru, and Vizag.";
+  "Naveed Shaik is a full-stack and AI engineer who builds useful web products, business workflows, connected systems, and practical AI experiences across different stacks and domains.";
 
 export const seoKeywords = [
   "Naveed Shaik",
@@ -44,6 +46,5 @@ export const seoKeywords = [
 export const socialLinks = {
   github: "https://github.com/naveed-devz",
   linkedIn: "https://www.linkedin.com/in/sh-naveed/",
-  instagram: "https://www.instagram.com/iam_naveed23?igsh=NW1mamRxcWlicWto",
   email: "mailto:shnaveed.work@gmail.com",
 };
