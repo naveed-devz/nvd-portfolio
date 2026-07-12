@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 const navItems = [
@@ -21,7 +22,15 @@ export function SiteHeader() {
           href="/"
           aria-label="Go to top of page"
           onClick={() => setMenuOpen(false)}
-        >SN</Link>
+        >
+          <Image
+            src="/naveed-mark.svg"
+            alt="Naveed Shaik logo"
+            width={40}
+            height={40}
+            priority
+          />
+        </Link>
 
         <button
           type="button"

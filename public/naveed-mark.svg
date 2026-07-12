@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Naveed Shaik mark</title>
+  <desc id="desc">A compact SN monogram for Naveed Shaik.</desc>
+  <rect width="512" height="512" rx="104" fill="#020404"/>
+  <rect x="29" y="29" width="454" height="454" rx="82" fill="none" stroke="#7dd3fc" stroke-opacity=".48" stroke-width="20"/>
+  <text x="256" y="334" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="210" font-weight="800" letter-spacing="0" fill="#f6fff9">SN</text>
+  <path d="M289 347c28 18 60 27 96 27 20 0 38-3 55-9-23 27-58 44-100 44-46 0-83-15-113-44l62-18Z" fill="#6ee7b7" opacity=".9"/>
+</svg>
