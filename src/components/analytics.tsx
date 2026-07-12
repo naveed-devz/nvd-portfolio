@@ -3,7 +3,7 @@
 import Script from "next/script";
 
 export function Analytics() {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const gaId = process.env.NEXT_PUBLIC_GA_ID ?? "G-YXJ0ZVRV45";
 
   if (!gaId) {
     return null;
